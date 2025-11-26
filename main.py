@@ -129,6 +129,30 @@ while inicio_sesion:
                             for i in pendientes:
                                 cambio_interno = (i['empleado_id'])
                                 if id_cambio == int(cambio_interno):
+                                    print("1.aprobada")
+                                    print("2.rechazada")
+                                    nuevo_estado = input("seleccione opcion (1 o 2): ")
+                                    if nuevo_estado == "1":
+                                        nuevo_estado = "APROBADA"
+                                    elif nuevo_estado == "2":
+                                        nuevo_estado = "RECHAZADA"
+                                    else:
+                                        print("opcion invalida")
+                                    
+                                    with open('vacaciones.csv', mode='r',encoding='utf-8') as vacas:
+                                        lector = csv.DictReader(vacas)
+                                        lista_vacas = list(lector)
+
+                                    for i in lista_vacas:
+                                        if int(i['empleado_id']) == id_cambio and i["estado"] == "PENDIENTE":
+                                            i['estado'] = nuevo_estado
+
+                                    with open('vacaciones.csv', mode='w', newline='', encoding='utf-8') as vacas:
+                                        writer = csv.DictWriter(vacas, fieldnames=lista_vacas[0].keys())
+                                        writer.writeheader()
+                                        writer.writerows(lista_vacas)
+                                    break
+
                                     
                               
                                     
